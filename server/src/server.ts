@@ -7,6 +7,6 @@ app.use(routes);
 
 const port = 3333;
 
-app.listen(port, () => {
+app.listen(3333, () => {
 	console.log(`🚀 Running on port\xa0${port}`);
 });
