@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import path from 'path';
 import fs from 'fs';
 
-import uploadConfig from '../config/updload';
+import uploadConfig from '../config/upload';
 import User from '../models/User';
 
 interface Request {
