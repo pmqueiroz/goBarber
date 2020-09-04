@@ -1,8 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
+import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi';
+import getValidationErrors from '../../utils/getValidationErrors';
+
 import logoImg from '../../assets/logo.svg';
 
 import Input from '../../Components/Input';
@@ -11,8 +13,11 @@ import Button from '../../Components/Button';
 import { Container, Content, Background } from './styles';
 
 const SignUp: React.FC = () => {
+	const formRef = useRef<FormHandles>(null);
+
 	const handleSubmit = useCallback(async (data: object) => {
 		try {
+			formRef.current?.setErrors({});
 			const schema = Yup.object().shape({
 				name: Yup.string().required('Name required'),
 				email: Yup.string()
@@ -25,7 +30,10 @@ const SignUp: React.FC = () => {
 				abortEarly: false,
 			});
 		} catch (err) {
-			console.log(err);
+			const errors = getValidationErrors(err);
+			console.log(errors);
+
+			formRef.current?.setErrors(errors);
 		}
 	}, []);
 
