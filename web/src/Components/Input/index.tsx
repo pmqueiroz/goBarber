@@ -6,9 +6,10 @@ import React, {
 	useCallback,
 } from 'react';
 import { IconBaseProps } from 'react-icons';
+import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
 
-import { Container } from './styles';
+import { Container, Error } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	name: string;
@@ -26,7 +27,7 @@ const Input: React.FunctionComponent<InputProps> = ({
 	const { fieldName, defaultValue, error, registerField } = useField(name);
 
 	const handleInputFocus = useCallback(() => {
-		setIsFocused(false);
+		setIsFocused(true);
 	}, []);
 
 	const handleInputBlur = useCallback(() => {
@@ -43,7 +44,7 @@ const Input: React.FunctionComponent<InputProps> = ({
 	}, [fieldName, registerField]);
 
 	return (
-		<Container isFocused={isFocused} isFilled={isFilled}>
+		<Container isErrored={!!error} isFocused={isFocused} isFilled={isFilled}>
 			{Icon && <Icon size={20} />}
 			<input
 				onFocus={handleInputFocus}
@@ -53,7 +54,11 @@ const Input: React.FunctionComponent<InputProps> = ({
 				{...rest}
 			/>
 
-			{error}
+			{error && (
+				<Error message={error}>
+					<FiAlertCircle color="#c53030" size={16} />
+				</Error>
+			)}
 		</Container>
 	);
 };
