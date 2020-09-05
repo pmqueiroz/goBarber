@@ -4,20 +4,20 @@ import Tooltip from '../Tooltip';
 
 interface ContainerProps {
 	isFocused: boolean;
-	isFilled: boolean;
 	isErrored: boolean;
+	isFilled: boolean;
 }
 
 export const Container = styled.div<ContainerProps>`
+	border: 2px solid #232129;
 	background: #232129;
 	border-radius: 10px;
-	border: 2px solid #232129;
+	color: #666360;
 	padding: 16px;
 	width: 100%;
-	color: #666360;
 
-	display: flex;
 	align-items: center;
+	display: flex;
 
 	& + div {
 		margin-top: 8px;
@@ -44,8 +44,8 @@ export const Container = styled.div<ContainerProps>`
 
 	input {
 		background: transparent;
-		border: 0;
 		color: #f4ede8;
+		border: 0;
 		flex: 1;
 
 		&::placeholder {
@@ -59,8 +59,8 @@ export const Container = styled.div<ContainerProps>`
 `;
 
 export const Error = styled(Tooltip)`
-	height: 16px;
 	margin-left: 16px;
+	height: 16px;
 	svg {
 		margin-right: 0;
 	}

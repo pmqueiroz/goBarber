@@ -4,14 +4,14 @@ export const Container = styled.div`
 	position: relative;
 
 	span {
+		transition: opacity 0.4s;
 		background: #ff9000;
+		font-size: 14px 500;
+		visibility: hidden;
+		border-radius: 4px;
 		color: #312e38;
 		padding: 8px;
-		border-radius: 4px;
-		font-size: 14px 500;
 		opacity: 0;
-		transition: opacity 0.4s;
-		visibility: hidden;
 
 		transform: translateX(-50%);
 		bottom: calc(100% + 12px);
@@ -32,7 +32,7 @@ export const Container = styled.div`
 	}
 
 	&:hover span {
-		opacity: 1;
 		visibility: visible;
+		opacity: 1;
 	}
 `;
