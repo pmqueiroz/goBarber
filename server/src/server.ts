@@ -35,5 +35,5 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
 const port = 3333;
 
 app.listen(3333, () => {
-	console.log(`🚀 Running on port\xa0${port}`);
+	console.log(`🚀\xa0 Running on port\xa0${port}`);
 });
