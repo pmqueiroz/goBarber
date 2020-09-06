@@ -10,7 +10,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import logoImg from '../../assets/logo.svg';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
-import { Container, Content, Background } from './styles';
+import { Container, Content, Background, AnimationContainer } from './styles';
 
 interface SignInFormData {
 	email: string;
@@ -47,6 +47,8 @@ const SignIn: React.FunctionComponent = () => {
 					const errors = getValidationErrors(err);
 
 					formRef.current?.setErrors(errors);
+
+					return;
 				}
 				addToast({
 					type: 'error',
@@ -61,25 +63,27 @@ const SignIn: React.FunctionComponent = () => {
 	return (
 		<Container>
 			<Content>
-				<img src={logoImg} alt="GoBarber" />
-				<Form ref={formRef} onSubmit={handleSubmit}>
-					<h1>Sign In</h1>
-					<Input name="email" icon={FiMail} placeholder="Email" />
-					<Input
-						name="password"
-						icon={FiLock}
-						type="password"
-						placeholder="Password"
-					/>
-					<Button type="submit">Logon</Button>
+				<AnimationContainer>
+					<img src={logoImg} alt="GoBarber" />
+					<Form ref={formRef} onSubmit={handleSubmit}>
+						<h1>Sign In</h1>
+						<Input name="email" icon={FiMail} placeholder="Email" />
+						<Input
+							name="password"
+							icon={FiLock}
+							type="password"
+							placeholder="Password"
+						/>
+						<Button type="submit">Logon</Button>
 
-					<a href="forgot">Forgot Password</a>
-				</Form>
+						<a href="forgot">Forgot Password</a>
+					</Form>
 
-				<Link to="signup">
-					<FiLogIn />
-					Create Account
-				</Link>
+					<Link to="signup">
+						<FiLogIn />
+						Create Account
+					</Link>
+				</AnimationContainer>
 			</Content>
 			<Background />
 		</Container>
