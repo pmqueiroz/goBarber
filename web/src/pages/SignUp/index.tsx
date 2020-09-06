@@ -3,8 +3,11 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
+
+import { useToast } from '../../hooks/toast';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -13,29 +16,59 @@ import Button from '../../Components/Button';
 
 import { Container, Content, Background, AnimationContainer } from './styles';
 
+interface SignUpFormData {
+	name: string;
+	email: string;
+	password: string;
+}
+
 const SignUp: React.FC = () => {
 	const formRef = useRef<FormHandles>(null);
+	const { addToast } = useToast();
+	const history = useHistory();
 
-	const handleSubmit = useCallback(async (data: object) => {
-		try {
-			formRef.current?.setErrors({});
-			const schema = Yup.object().shape({
-				name: Yup.string().required('Name required'),
-				email: Yup.string()
-					.required('Email required')
-					.email('Insert a valid email'),
-				password: Yup.string().min(8, 'Minimum of 8 characters'),
-			});
+	const handleSubmit = useCallback(
+		async (data: SignUpFormData) => {
+			try {
+				formRef.current?.setErrors({});
+				const schema = Yup.object().shape({
+					name: Yup.string().required('Name required'),
+					email: Yup.string()
+						.required('Email required')
+						.email('Insert a valid email'),
+					password: Yup.string().min(8, 'Minimum of 8 characters'),
+				});
 
-			await schema.validate(data, {
-				abortEarly: false,
-			});
-		} catch (err) {
-			const errors = getValidationErrors(err);
+				await schema.validate(data, {
+					abortEarly: false,
+				});
 
-			formRef.current?.setErrors(errors);
-		}
-	}, []);
+				await api.post('/users', data);
+
+				history.push('/');
+
+				addToast({
+					type: 'success',
+					title: 'Thanks!',
+					description: 'your account has been successfully created',
+				});
+			} catch (err) {
+				if (err instanceof Yup.ValidationError) {
+					const errors = getValidationErrors(err);
+
+					formRef.current?.setErrors(errors);
+
+					return;
+				}
+				addToast({
+					type: 'error',
+					title: 'Problemo!',
+					description: 'Invalid Fields. Try again?',
+				});
+			}
+		},
+		[addToast, history],
+	);
 
 	return (
 		<Container>
