@@ -3,7 +3,8 @@ import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
-import { useAuth } from '../../hooks/AuthContext';
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 import getValidationErrors from '../../utils/getValidationErrors';
 import logoImg from '../../assets/logo.svg';
 import Input from '../../Components/Input';
@@ -15,10 +16,11 @@ interface SignInFormData {
 	password: string;
 }
 
-const SignIn: React.FC = () => {
+const SignIn: React.FunctionComponent = () => {
 	const formRef = useRef<FormHandles>(null);
 
 	const { signIn } = useAuth();
+	const { addToast } = useToast();
 
 	const handleSubmit = useCallback(
 		async (data: SignInFormData) => {
@@ -35,7 +37,7 @@ const SignIn: React.FC = () => {
 					abortEarly: false,
 				});
 
-				signIn({
+				await signIn({
 					email: data.email,
 					password: data.password,
 				});
@@ -45,10 +47,14 @@ const SignIn: React.FC = () => {
 
 					formRef.current?.setErrors(errors);
 				}
-				// toast
+				addToast({
+					type: 'error',
+					title: 'Problemo!',
+					description: 'That password and login doesn`t match. Try again?',
+				});
 			}
 		},
-		[signIn],
+		[signIn, addToast],
 	);
 
 	return (
