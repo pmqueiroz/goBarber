@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Image } from 'react-native';
 
-import { Container } from './styles';
+import logoImg from '../../assets/logo.png';
+
+import { Container, Title } from './styles';
 
 const SignIn: React.FunctionComponent = () => (
-	<View>
-		<Text>Salve</Text>
-	</View>
-)
+  <Container>
+    <Image source={logoImg} />
+
+    <Title>Log in</Title>
+  </Container>
+);
 
 export default SignIn;
